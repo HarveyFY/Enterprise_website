@@ -28,8 +28,6 @@ CREATE TABLE `ent_auth_group` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='权限组表';
 
-/*Data for the table `ent_auth_group` */
-
 /*Table structure for table `ent_auth_rules` */
 
 DROP TABLE IF EXISTS `ent_auth_rules`;
@@ -42,8 +40,6 @@ CREATE TABLE `ent_auth_rules` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='权限规则表';
 
-/*Data for the table `ent_auth_rules` */
-
 /*Table structure for table `ent_auth_verify` */
 
 DROP TABLE IF EXISTS `ent_auth_verify`;
@@ -54,8 +50,6 @@ CREATE TABLE `ent_auth_verify` (
   `gropuId` int(11) NOT NULL COMMENT '权限组ID',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='权限授权表';
-
-/*Data for the table `ent_auth_verify` */
 
 /*Table structure for table `ent_cate` */
 
@@ -74,8 +68,6 @@ CREATE TABLE `ent_cate` (
   `sort` tinyint(4) DEFAULT NULL COMMENT '排序',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-/*Data for the table `ent_cate` */
 
 /*Table structure for table `ent_user` */
 
@@ -97,10 +89,6 @@ CREATE TABLE `ent_user` (
   `regTime` int(11) NOT NULL COMMENT '注册时间',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
-
-/*Data for the table `ent_user` */
-
-insert  into `ent_user`(`id`,`username`,`realName`,`sex`,`birthday`,`phone`,`password`,`avatar`,`qq`,`email`,`areaid`,`status`,`regTime`) values (1,'90052','符运辉',2,'2017-08-24 00:00:00','15008008601','3d9188577cc9bfe9291ac66b5cc872b7',NULL,NULL,'94045588@qq.com',22,0,1503560629),(2,'90052','符运辉２',2,'2017-08-24 00:00:00','15008008601','3d9188577cc9bfe9291ac66b5cc872b7',NULL,NULL,'94045588@qq.com',22,0,1503560791),(3,'90052','符运辉3',2,'2017-08-24 00:00:00','15008008601','e10adc3949ba59abbe56e057f20f883e',NULL,NULL,'94045588@qq.com',22,0,1503561539),(5,'90052','符运辉　',2,'2017-08-24 00:00:00','','e10adc3949ba59abbe56e057f20f883e','avatar/20170824/2afdfd8a8c86a34c04b361ab28ca6896.jpg',NULL,'94045588@qq.com',33,0,1503566321);
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
 /*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
