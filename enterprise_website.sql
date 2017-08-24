@@ -2,7 +2,8 @@
 SQLyog Ultimate v12.09 (64 bit)
 MySQL - 5.6.33 : Database - enterprise_website
 *********************************************************************
-*/
+*/
+
 
 /*!40101 SET NAMES utf8 */;
 
@@ -85,19 +86,21 @@ CREATE TABLE `ent_user` (
   `username` varchar(20) NOT NULL COMMENT '昵称',
   `realName` varchar(20) NOT NULL COMMENT '真实姓名',
   `sex` tinyint(4) NOT NULL COMMENT '性别:0不确定1女2男',
-  `birthday` int(11) NOT NULL COMMENT '生日',
+  `birthday` datetime NOT NULL COMMENT '生日',
   `phone` varchar(20) NOT NULL COMMENT '手机',
   `password` varchar(40) NOT NULL COMMENT '密码',
-  `avatar` varchar(40) DEFAULT NULL COMMENT '实名头像',
+  `avatar` varchar(100) DEFAULT NULL COMMENT '实名头像',
   `qq` varchar(20) DEFAULT NULL COMMENT 'qq号',
   `email` varchar(40) DEFAULT NULL COMMENT '邮箱',
   `areaid` tinyint(4) DEFAULT NULL COMMENT '区域坐标ID',
-  `status` tinyint(4) NOT NULL COMMENT '状态:0正常1锁定',
+  `status` tinyint(4) NOT NULL DEFAULT '0' COMMENT '状态:0正常1锁定',
   `regTime` int(11) NOT NULL COMMENT '注册时间',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
 
 /*Data for the table `ent_user` */
+
+insert  into `ent_user`(`id`,`username`,`realName`,`sex`,`birthday`,`phone`,`password`,`avatar`,`qq`,`email`,`areaid`,`status`,`regTime`) values (1,'90052','符运辉',2,'2017-08-24 00:00:00','15008008601','3d9188577cc9bfe9291ac66b5cc872b7',NULL,NULL,'94045588@qq.com',22,0,1503560629),(2,'90052','符运辉２',2,'2017-08-24 00:00:00','15008008601','3d9188577cc9bfe9291ac66b5cc872b7',NULL,NULL,'94045588@qq.com',22,0,1503560791),(3,'90052','符运辉3',2,'2017-08-24 00:00:00','15008008601','e10adc3949ba59abbe56e057f20f883e',NULL,NULL,'94045588@qq.com',22,0,1503561539),(5,'90052','符运辉　',2,'2017-08-24 00:00:00','','e10adc3949ba59abbe56e057f20f883e','avatar/20170824/2afdfd8a8c86a34c04b361ab28ca6896.jpg',NULL,'94045588@qq.com',33,0,1503566321);
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
 /*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
