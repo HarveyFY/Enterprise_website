@@ -108,7 +108,7 @@ Purchase: http://wrapbootstrap.com
 				<div class="page-body">
       				   <div class="header ">
                             <div class="header ">
-	                             <a class="btn btn-default purple" href="javascript:void(0);"><i class="fa fa-plus"></i>添加</a>
+	                             <a class="btn btn-default purple" href="{:url('add')}"><i class="fa fa-plus"></i>添加</a>
 	                         </div>
                         </div>
                        <div class="well with-footer">
@@ -118,6 +118,7 @@ Purchase: http://wrapbootstrap.com
                                         <tr>
                                             <th>id</th>
                                             <th>用户名</th>
+                                            <th>真实名</th>
                                             <th>性别</th>
                                             <th>出生年月</th>
                                             <th>头像</th>
@@ -129,26 +130,32 @@ Purchase: http://wrapbootstrap.com
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr>
-                                            <td>１</td>
-                                            <td>符运辉</td>
-                                            <td>男</td>
-                                            <td>1990.07-08</td>
-                                            <td></td>
-                                            　							<td>15008008601</td>
-                                            <td>90405588@qq.com</td>
-                                            <td>海南省东方市</td>
-                                            <td>正常</td>
-                                            <td>
-                                            	<a href="#" class="btn btn-primary shiny">编辑</a>
-                                            	<a href="#" class="btn btn-primary shiny">删除</a>
-                                            </td>
-                                        </tr>
-                                       
+                                    	{volist name="managerList" id="manager"}
+	                                        <tr>
+	                                            <td>{$manager.id}</td>
+	                                            <td>{$manager.username}</td>
+	                                            <td>{$manager.realName}</td>
+	                                            <td>{$manager.sex}</td>
+	                                            <td>{$manager.birthday}</td>
+	                                            {if condition="$manager.avatar neq ''"}
+	                                            <td><img width="40" height="40" src="__UPLOADFILE__/{$manager.avatar}"/></td>
+	                                            {else/}
+	                                            <td>没头像</td>
+	                                            {/if}
+	                                            　							<td>{$manager.phone}</td>
+	                                            <td>{$manager.email}</td>
+	                                            <td>{$manager.areaid}</td>
+	                                            <td>{$manager.status}</td>
+	                                            <td>
+	                                            	<a href="#" class="btn btn-primary shiny">编辑</a>
+	                                            	<a href="#" class="btn btn-primary shiny">删除</a>
+	                                            </td>
+	                                        </tr>
+                                        {/volist}
                                     </tbody>
                                 </table>
                                 <div class="footer">
-                                    <code>class="table table-bordered"</code>
+                                    <span style="display:block;text-align:center;">{$managerList->render()}</span>
                                 </div>
                             </div>        
 				
