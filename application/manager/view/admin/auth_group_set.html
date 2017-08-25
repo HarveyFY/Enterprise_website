@@ -83,14 +83,14 @@ Purchase: http://wrapbootstrap.com
 				<div class="page-breadcrumbs">
 					<ul class="breadcrumb">
 						<li><i class="fa fa-home"></i> <a href="#">管理员</a></li>
-						<li class="active">管理员列表</li>
+						<li class="active">权限列表</li>
 					</ul>
 				</div>
 				<!-- /Page Breadcrumb -->
 				<!-- Page Header -->
 				<div class="page-header position-relative">
 					<div class="header-title">
-						<h1>管理员列表</h1>
+						<h1>权限列表</h1>
 					</div>
 					<!--Header Buttons-->
 					<div class="header-buttons">
@@ -108,56 +108,26 @@ Purchase: http://wrapbootstrap.com
 				<div class="page-body">
       				   <div class="header ">
                             <div class="header ">
-	                             <a class="btn btn-default purple" href="{:url('add')}"><i class="fa fa-plus"></i>添加</a>
+	                             <a class="btn btn-default purple" href="{:url('authGroupList')}"><i class="fa fa-plus"></i>返回</a>
 	                         </div>
                         </div>
                        <div class="well with-footer">
-                                
-                                <table class="table table-bordered table-hover">
-                                    <thead>
-                                        <tr>
-                                            <th>id</th>
-                                            <th>用户名</th>
-                                            <th>真实名</th>
-                                            <th>性别</th>
-                                            <th>出生年月</th>
-                                            <th>头像</th>
-                                            <th>手机</th>
-                                            <th>Email</th>
-                                            <th>籍贯</th>
-                                            <th>状态</th>
-                                            <th>操作</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                    	{volist name="managerList" id="manager"}
-	                                        <tr>
-	                                            <td>{$manager.id}</td>
-	                                            <td>{$manager.username}</td>
-	                                            <td>{$manager.realName}</td>
-	                                            <td>{$manager.sex==0 ? '未知' : $manager.sex==1 ? '女' : '男' }</td>
-	                                            <td>{$manager.birthday}</td>
-	                                            {if condition="$manager.avatar neq ''"}
-	                                            <td><img width="40" height="40" src="__UPLOADFILE__/{$manager.avatar}"/></td>
-	                                            {else/}
-	                                            <td>没头像</td>
-	                                            {/if}
-	                                            　							<td>{$manager.phone}</td>
-	                                            <td>{$manager.email}</td>
-	                                            <td>{$manager.areaid}</td>
-	                                            <td>{$manager.status}</td>
-	                                            <td>
-	                                            	<a href="{:url('edit',array('id'=>$manager.id))}" class="btn btn-primary shiny">编辑</a>
-	                                            	<a href="#" class="btn btn-primary shiny">删除</a>
-	                                            </td>
-	                                        </tr>
-                                        {/volist}
-                                    </tbody>
-                                </table>
-                                <div class="footer">
-                                    <span style="display:block;text-align:center;">{$managerList->render()}</span>
-                                </div>
-                            </div>        
+                               
+                            <H3>{$authGroupRs.name}</H3>
+                            <ul>
+	                            {volist name="authList" id="auth"}
+	                            	<li>
+	                            		<div class="checkbox">
+                                             <label>
+                                             	　<?=str_repeat('&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;',$auth['level'])?>
+                                                 <input type="checkbox" class="colored-danger"　>
+                                                 <span class="text">{$auth.title}</span>
+                                             </label>
+                                         </div>
+	                            	</li>
+	                            {/volist}
+                            </ul>
+                       </div>        
 				
 				</div>
 				<!-- /Page Body -->

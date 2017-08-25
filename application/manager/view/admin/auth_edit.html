@@ -83,14 +83,14 @@ Purchase: http://wrapbootstrap.com
 				<div class="page-breadcrumbs">
 					<ul class="breadcrumb">
 						<li><i class="fa fa-home"></i> <a href="#">管理员</a></li>
-						<li class="active">添加管理员</li>
+						<li class="active">添加权限</li>
 					</ul>
 				</div>
 				<!-- /Page Breadcrumb -->
 				<!-- Page Header -->
 				<div class="page-header position-relative">
 					<div class="header-title">
-						<h1>管理员添加</h1>
+						<h1>权限添加</h1>
 					</div>
 					<!--Header Buttons-->
 					<div class="header-buttons">
@@ -107,79 +107,44 @@ Purchase: http://wrapbootstrap.com
 				<!-- Page Body -->
 				<div class="page-body">
       				 
-      				    <div class="header ">
+      				 　　　<div class="header ">
                             <div class="header ">
-	                             <a class="btn btn-default purple" href="{:url('add')}"><i class="fa fa-mail-reply-all"></i>返回</a>
+	                             <a class="btn btn-default purple" href="javascript:history.go(-1)"><i class="fa fa-mail-reply-all"></i>返回</a>
 	                         </div>
                         </div>
 	      				<div class="widget-body">
                             <div id="horizontal-form">
                                 <form class="form-horizontal" role="form" method="post" enctype="multipart/form-data">
-                                	<input type="hidden" name="id" value="{$manager.id}"/>
-                                    <div class="form-group">
-                                        <label for="inputEmail3" class="col-sm-2 control-label no-padding-right">用户名</label>
-                                        <div class="col-sm-10">
-                                            <input type="text" class="form-control" name="username" value="{$manager.username}" placeholder="username">
+                                	<input type="hidden" name="id" value="{$authRs.id}"/>
+                                	<div class="form-group">
+                                        <label for="inputEmail3" class="col-sm-2 control-label no-padding-right">上级节点</label>
+                                        <div class="col-sm-10"> 
+                                            <select id="e1" name="pid" style="width:100%;" tabindex="-1" class="select2-offscreen">
+                                                <option value="0">顶级节点</option>
+                                                {volist name="authList" id="auth"}
+                                                	<option value="{$auth.id}" {if condition="$auth.id eq $authRs.pid"} selected="selected" {/if}>{if condition="$auth.level gt 0"}|{/if}<?=str_repeat('----',$auth['level'])?>{$auth.title}</option>
+                                                {/volist}
+                                            </select>
                                         </div>
                                     </div>
                                     <div class="form-group">
-                                        <label for="inputEmail3" class="col-sm-2 control-label no-padding-right">真实名</label>
+                                        <label for="inputEmail3" class="col-sm-2 control-label no-padding-right">权限标题</label>
                                         <div class="col-sm-10">
-                                            <input type="text" class="form-control" name="realName" value="{$manager.realName}" placeholder="realName">
+                                            <input type="text" class="form-control" name="title" value="{$authRs.title}" placeholder="Title">
                                         </div>
                                     </div>
                                     <div class="form-group">
-                                        <label for="inputEmail3" class="col-sm-2 control-label no-padding-right">性别</label>
+                                        <label for="inputEmail3" class="col-sm-2 control-label no-padding-right">权限路径</label>
                                         <div class="col-sm-10">
-                                             <div class="radio">
-                                                 <label>
-                                                     <input name="sex" type="radio" value="2" {if condition="$manager['sex'] eq 2"}checked="checked"{/if}>
-                                                     <span class="text">男 </span>
-                                                 </label>
-                                                  <label>
-                                                     <input name="sex" type="radio" value="1" class="inverted" {if condition="$manager['sex'] eq 1"}checked="checked"{/if}>
-                                                     <span class="text">女</span>
-                                                 </label>
-                                             </div>      
+                                            <input type="text" class="form-control" name="url" value="{$authRs.url}" placeholder="URL">
                                         </div>
                                     </div>
                                     <div class="form-group">
-                                        <label for="inputEmail3" class="col-sm-2 control-label no-padding-right">出生年月</label>
+                                        <label for="inputEmail3" class="col-sm-2 control-label no-padding-right">排序</label>
                                         <div class="col-sm-10">
-                                            <input type="date" id="dateId" class="form-control" name="birthday" >
+                                        	<input type="number" name="sort" value="{$authRs.sort}" class="form-control">
                                         </div>
                                     </div>
-                                    <div class="form-group">
-                                        <label for="inputEmail3" class="col-sm-2 control-label no-padding-right">手机</label>
-                                        <div class="col-sm-10">
-                                            <input type="text" class="form-control" name="phone" value="{$manager.phone}" placeholder="phone">
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="inputEmail3" class="col-sm-2 control-label no-padding-right">头像</label>
-                                        <div class="col-sm-10">
-                                            <input type="file" class="form-control" name="avatar" placeholder="avatar">
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="inputPassword3" class="col-sm-2 control-label no-padding-right">邮箱</label>
-                                        <div class="col-sm-10">
-                                            <input type="email" class="form-control" name="email" value="{$manager.email}" placeholder="email">
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="inputPassword3" class="col-sm-2 control-label no-padding-right">区域</label>
-                                        <div class="col-sm-10">
-                                            <input type="text" class="form-control" name="areaid" value="{$manager.areaid}" placeholder="areaid">
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="inputPassword3" class="col-sm-2 control-label no-padding-right">密码</label>
-                                        <div class="col-sm-10">
-                                            <input type="password" class="form-control" name="password" placeholder="Password">
-                                        </div>
-                                    </div>
-
                                     <div class="form-group">
                                         <div class="col-sm-offset-2 col-sm-10">
                                             <button type="submit" class="btn btn-default">修改</button>
@@ -207,7 +172,14 @@ Purchase: http://wrapbootstrap.com
 
 	<!--Beyond Scripts-->
 	<script src="__MANAGER__/assets/js/beyond.min.js"></script>
+	
+	<!--Page Related Scripts-->
+    <!--Jquery Select2-->
+    <script src="__MANAGER__/assets/js/select2/select2.js"></script>
+    <!--Bootstrap Tags Input-->
+    <script src="__MANAGER__/assets/js/tagsinput/bootstrap-tagsinput.js"></script>
 
+	
 
 	<!--Page Related Scripts-->
 	<!--Sparkline Charts Needed Scripts-->
@@ -228,13 +200,15 @@ Purchase: http://wrapbootstrap.com
 	<script>
 		// If you want to draw your charts with Theme colors you must run initiating charts after that current skin is loaded
 		$(window).bind("load", function() {
-			
+		
 		});
-		$(document).ready(function(){
-			birthday = '{$manager.birthday}';
-			$('#dateId').val(birthday);
-		});
+		
+		//--Jquery Select2--
+        $("#e1").select2();
+
+
 	</script>
+	
 
 </body>
 <!--  /Body -->

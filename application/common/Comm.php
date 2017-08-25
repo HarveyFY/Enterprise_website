@@ -15,7 +15,7 @@ class Comm extends Controller{
 		//$file = request()->file('image');
 		// 移动到框架应用根目录/public/uploads/ 目录下
 		$info = $file->validate(['size'=>5242880,'ext'=>'jpg,png,gif'])->move(ROOT_PATH . 
-				'public' . DS . 'static'.DS.'uploads'.DS.$catalog);
+				'public' .DS. 'uploads'.DS.$catalog);
 		
 		if($info){
 			// 成功上传后 获取上传信息
