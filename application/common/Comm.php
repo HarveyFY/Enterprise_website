@@ -1,12 +1,19 @@
 <?php
 namespace app\common;
 use think\controller;
+use think\Request;
 
 class Comm extends Controller{
+	private $uid;
+	private $uername;
+	private $phone;
 	
-	public function test(){
+	public function _initialize(){
 		
-		echo ROOT_PATH;exit;
+ 		//echo ROOT_PATH;
+		$request = Request::instance();
+		$requestURL = $request->module().DS.$request->controller().DS.$request->action();
+		//echo $requestURL;
 	}
 	
 	//$file = request()->file('image');

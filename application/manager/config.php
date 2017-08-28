@@ -15,7 +15,7 @@ return [
     'view_replace_str' => [
     		'__ROOM__' 		 => '/',
     		'__PUBLIC__'	 => '/public',
-    		'__MANAGER__' 	 => '/manager',
+    		'__MANAGER__' 	 => '/static/manager',
     		'__UPLOADFILE__' => '/uploads'
     ],
     // 默认跳转页面对应的模板文件
