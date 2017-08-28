@@ -112,21 +112,24 @@ Purchase: http://wrapbootstrap.com
 	                         </div>
                         </div>
                        <div class="well with-footer">
-                               
+                            <form method="post">
                             <H3>{$authGroupRs.name}</H3>
+	                            <input type="hidden" name="id" value="{$authGroupRs.id}"/>
                             <ul>
-	                            {volist name="authList" id="auth"}
+		                            <?php foreach($authList as $k => $v){?>
 	                            	<li>
 	                            		<div class="checkbox">
                                              <label>
-                                             	　<?=str_repeat('&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;',$auth['level'])?>
-                                                 <input type="checkbox" class="colored-danger"　>
-                                                 <span class="text">{$auth.title}</span>
+	                                             	 <?php echo str_repeat('&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;',$v['level']);?>
+	                                                 <input type="checkbox" name="ids[]" value="<?php echo $v['id']?>" <?php if(in_array($v['id'],$authGroupRs['rulesIdArr'])){ echo 'checked="checked"'; }?>   class="colored-danger">
+	                                                 <span class="text"><?php echo $v['title']?></span>
                                              </label>
                                          </div>
 	                            	</li>
-	                            {/volist}
+		                            <?php }?>
                             </ul>
+	                            <input type="submit" value="提交"/>
+                            </form>
                        </div>        
 				
 				</div>

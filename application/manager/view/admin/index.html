@@ -123,6 +123,7 @@ Purchase: http://wrapbootstrap.com
                                             <th>出生年月</th>
                                             <th>头像</th>
                                             <th>手机</th>
+                                            <th>qq</th>
                                             <th>Email</th>
                                             <th>籍贯</th>
                                             <th>状态</th>
@@ -143,12 +144,13 @@ Purchase: http://wrapbootstrap.com
 	                                            <td>没头像</td>
 	                                            {/if}
 	                                            　							<td>{$manager.phone}</td>
+	                                            <td>{$manager.qq}</td>
 	                                            <td>{$manager.email}</td>
 	                                            <td>{$manager.areaid}</td>
 	                                            <td>{$manager.status}</td>
 	                                            <td>
 	                                            	<a href="{:url('edit',array('id'=>$manager.id))}" class="btn btn-primary shiny">编辑</a>
-	                                            	<a href="#" class="btn btn-primary shiny">删除</a>
+	                                            	<a href="{:url('del',array('id'=>$manager.id))}" class="btn btn-primary shiny">删除</a>
 	                                            </td>
 	                                        </tr>
                                         {/volist}

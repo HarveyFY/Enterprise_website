@@ -34,14 +34,22 @@ class Admin extends Comm{
 			if(isset($data['password'])){
 				$data['password']=md5($data['password']);
 			}
-			$rs = $adminModel->save($data);
+			$rs = $adminModel->allowField(true)->save($data);
+			echo $adminModel->id;exit;
+			//unset($data['groupId']);
+			//$uid = Db::name('admin')->insertGetId($data);
 			if($rs){
+				$groupId=input('groupId');
+				$uid = $adminModel->id;
+				Db::table('ent_auth_verify')->insert(['uid'=>$uid,'groupId'=>$groupId]);
 				$this->success("添加管理员成功！",url('index'));
 			}else{
 				$this->error("添加管理员失败！");
 			}
 			return;
 		}
+		$authGroupList = Db::table('ent_auth_group')->select();
+		$this->assign('authGroupList',$authGroupList);
 		return view();
 	}
 	public function edit(){
@@ -54,6 +62,10 @@ class Admin extends Comm{
 			if($_FILES['avatar']['size']>0){
 				$avatar = $this->upload('avatar', request()->file('avatar'));
 				if($avatar['check_info']){
+					$oldImg = $_SERVER['DOCUMENT_ROOT'].DS.'uploads'.DS. $manager['avatar'];
+					if(file_exists($oldImg)){
+						@unlink($oldImg);
+					}
 					$data['avatar'] = $avatar['msg'];
 				}else{
 					$this->error("头像上传失败！".$avatar['msg']);
@@ -63,8 +75,17 @@ class Admin extends Comm{
 			if(isset($data['password'])){
 				$data['password']=md5($data['password']);
 			}
+			$groupId = $data['groupId'];
+			unset($data['groupId']);
+			//print_r($data);exit;
 			$rs = $adminModel->update($data);
 			if($rs){
+				$gs = Db::name('auth_verify')->where('uid',input('id'))->select();
+				if($gs){
+					Db::name('auth_verify')->where(['uid'=>input('id')])->update(['uid'=>input('id'),'groupId'=>$groupId]);
+				}else{
+					Db::name('auth_verify')->insert(['uid'=>input('id'),'groupId'=>$groupId]);
+				}
 				$this->success("修改管理员成功！",url('index'));
 			}else{
 				$this->error("修改管理员失败！");
@@ -74,9 +95,29 @@ class Admin extends Comm{
 		if(!empty($manager['birthday'])){
 			$manager['birthday'] = date('Y-m-d',strtotime($manager['birthday']));
 		}
-		//print_r($manager);exit;
+		$authVerifyRs = Db::name('auth_verify')->where('uid',input('id'))->value('groupId');
+		$authGroupList = Db::table('ent_auth_group')->select();
+		$this->assign('authVerify',$authVerifyRs);
+		$this->assign('authGroupList',$authGroupList);
 		$this->assign('manager' ,$manager);
 		return view();
+	}
+	public function del(){
+		$adminRs = Db::name('admin')->where('id',input('id'))->column('avatar');
+		if($adminRs){
+			$avatar = $adminRs[0];
+			$imgDir = $_SERVER['DOCUMENT_ROOT'].DS.'uploads'.DS.$avatar;
+			if(file_exists($imgDir)){
+				@unlink($imgDir);
+				$rs = Db::name('admin')->delete(input('id'));
+				if($rs){
+					$this->success('管理员删除成功！',url('index'));
+				}else{
+					$this->error('管理员删除失败！');
+				}
+			}
+		}
+		$this->error('管理员删除失败！');
 	}
 	
 	public function authList(){
@@ -159,11 +200,32 @@ class Admin extends Comm{
 	}
 	
 	public function authGroupSet(){
+		if(request()->isPost()){
+			$data = input('post.');
+			$temp = array();
+			if(!isset($data['ids'])){
+				$this->success('设置成功！',url('authGroupList'));
+			}
+			foreach($data['ids'] as $v){
+				$temp[] = $v;
+			}
+			unset($data);
+			$str = implode('|',$temp);
+			$rs=Db::table('ent_auth_group')->update(['rules'=>$str,'id'=>input('id')]);
+			if($rs){
+				$this->success('设置成功！',url('authGroupList'));
+			}else{
+				$this->error('设置失败！');
+			}
+		}
 		$authModel = new AuthModel();
 		$authGroupRs = Db::table('ent_auth_group')->find(input('id'));
 		$authList = $authModel->getAuthList();
-		
-		
+		if($authGroupRs['rules']){
+			$authGroupRs['rulesIdArr'] = explode('|',$authGroupRs['rules']);
+		}else{
+			$authGroupRs['rulesIdArr'] = array();
+		}
 		
 		$this->assign('authList',$authList);
 		$this->assign('authGroupRs',$authGroupRs);
