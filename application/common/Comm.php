@@ -2,20 +2,95 @@
 namespace app\common;
 use think\controller;
 use think\Request;
+use think\Db;
 
 class Comm extends Controller{
-	private $uid;
+	private $uid=1;
 	private $uername;
 	private $phone;
+	private $groupName;
 	
 	public function _initialize(){
 		
  		//echo ROOT_PATH;
 		$request = Request::instance();
-		$requestURL = $request->module().DS.$request->controller().DS.$request->action();
-		//echo $requestURL;
+		$requestURL = strtolower($request->module().DS.$request->controller().DS.$request->action());
+		
+		$auth = $this->check($requestURL);
+		if(!$auth){
+			$this->error('没有权限！');
+		}
+		
 	}
-	
+	public function check($rules=''){
+		
+		if('超级员'==$this->groupName){
+			return true;
+		}
+		if($rules=='' || empty($rules)){
+			return false;
+		}
+		$authUrlArr = $this->getAuthUrl($uid=1);
+
+		if(empty($authUrlArr)){
+			return false;
+		}
+		
+		foreach($authUrlArr as $v){
+			if($rules==$v){
+				return true;
+			}
+		}
+		return false;
+		
+	}
+	public function getAuthUrl($uid){
+		$rulesIds = array();
+		$rulesIdArr = array();
+		$urlArr = array();
+		
+		$rulesList = array();
+		
+		$rulesIdSQL= 'SELECT
+				  ag.rules
+				FROM
+				  ent_auth_verify AS av
+				  LEFT JOIN ent_auth_group AS ag
+				    ON av.`groupId` = ag.id
+				  WHERE av.uid= '.$uid;
+		
+		$rulesIds = Db::query($rulesIdSQL);
+		
+		if(!empty($rulesIds)){
+			foreach($rulesIds as $k => $v){
+					
+				if($k==0){
+					$rulesIdArr = explode('|',$v['rules']);
+				}else{
+					array_merge($rulesIdArr,explode('|',$v['rules']));
+				}
+		
+			}
+		}else{
+			return $urlArr;
+		}
+		unset($rulesIds);
+		$rulesSQL = 'SELECT id,url FROM ent_auth_rules';
+		$rulesList = Db::query($rulesSQL);
+		
+		if(!empty($rulesList)){
+			foreach($rulesIdArr as $k => $v){
+				foreach($rulesList as $lk => $lv){
+					if($v==$lv['id']){
+						$urlArr[]=strtolower($lv['url']);
+					}
+				}
+			}
+			unset($rulesIdArr);
+		}
+		
+		return $urlArr;
+	}
 	//$file = request()->file('image');
 	public function upload($catalog,$file){
 		// 获取表单上传文件 例如上传了001.jpg
