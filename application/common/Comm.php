@@ -3,6 +3,8 @@ namespace app\common;
 use think\controller;
 use think\Request;
 use think\Db;
+use think\Session;
+use think\Cookie;
 
 class Comm extends Controller{
 	private $uid=1;
@@ -12,21 +14,48 @@ class Comm extends Controller{
 	
 	public function _initialize(){
 		
+		if(!empty($user_info=Cookie::get('user_info'))){
+			$user_info = base64_decode($user_info);
+			$userArr = explode('|',$user_info);
+			
+			//print_r($userArr);
+			
+			if($userArr[1]<(time()-60*60*24*7)){
+				$this->success('请选登录','manager/welcome/login');
+			}
+			$adminRs = Db::name('Admin')->where('username',$userArr[0])->find();
+			if(empty($adminRs)){
+				$adminRs = Db::name('Admin')->where('phone',$userArr[0])->find();
+			}
+			$verify = sha1($adminRs['username'].$adminRs['password'].$userArr[1]);
+			
+			if($userArr[2]==$verify){
+				Session::set('user_id',$adminRs['id']);
+			}else{
+				$this->success('请选登录','manager/welcome/login');
+			}
+		}
+		//判断是否登录
+		if(empty(Session::get('user_id'))){
+			//$this->redirect('manager/welcome/login');
+			$this->success('请选登录','manager/welcome/login');
+		}
+
  		//echo ROOT_PATH;
 		$request = Request::instance();
 		$requestURL = strtolower($request->module().DS.$request->controller().DS.$request->action());
 		
 		$auth = $this->check($requestURL);
 		if(!$auth){
-			$this->error('没有权限！');
+			//$this->error('没有权限！');
 		}
 		
 	}
 	public function check($rules=''){
 		
-		if('超级员'==$this->groupName){
-			return true;
-		}
+// 		if(0==$this->level){
+// 			return true;
+// 		}
 		if($rules=='' || empty($rules)){
 			return false;
 		}
