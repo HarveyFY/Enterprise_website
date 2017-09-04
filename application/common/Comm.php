@@ -20,7 +20,7 @@ class Comm extends Controller{
 			
 			//print_r($userArr);
 			
-			if($userArr[1]<(time()-60*60*24*7)){
+			if(($userArr[1]+60*60*24*7)<(time())){
 				$this->success('请选登录','manager/welcome/login');
 			}
 			$adminRs = Db::name('Admin')->where('username',$userArr[0])->find();
