@@ -9,6 +9,7 @@ use think\Cookie;
 class Comm extends Controller{
 	private $uid=1;
 	private $uername;
+	private $realName;
 	private $phone;
 	private $groupName;
 	
@@ -30,6 +31,11 @@ class Comm extends Controller{
 			$verify = sha1($adminRs['username'].$adminRs['password'].$userArr[1]);
 			
 			if($userArr[2]==$verify){
+				$this->uid		= $adminRs['id'];
+				$this->username	= $adminRs['username'];
+				$this->realName = $adminRs['realName'];
+				$this->phone 	= $adminRs['phone'];
+				
 				Session::set('user_id',$adminRs['id']);
 			}else{
 				$this->success('请选登录','manager/welcome/login');
