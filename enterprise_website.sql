@@ -17,6 +17,27 @@ CREATE DATABASE /*!32312 IF NOT EXISTS*/`enterprise_website` /*!40100 DEFAULT CH
 
 USE `enterprise_website`;
 
+/*Table structure for table `ent_admin` */
+
+DROP TABLE IF EXISTS `ent_admin`;
+
+CREATE TABLE `ent_admin` (
+  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'ID',
+  `username` varchar(20) NOT NULL COMMENT '昵称',
+  `realName` varchar(20) NOT NULL COMMENT '真实姓名',
+  `sex` tinyint(4) NOT NULL COMMENT '性别:0不确定1女2男',
+  `birthday` datetime NOT NULL COMMENT '生日',
+  `phone` varchar(20) NOT NULL COMMENT '手机',
+  `password` varchar(40) NOT NULL COMMENT '密码',
+  `avatar` varchar(100) DEFAULT NULL COMMENT '实名头像',
+  `qq` varchar(20) DEFAULT NULL COMMENT 'qq号',
+  `email` varchar(40) DEFAULT NULL COMMENT '邮箱',
+  `areaid` tinyint(4) DEFAULT NULL COMMENT '区域坐标ID',
+  `status` tinyint(4) NOT NULL DEFAULT '0' COMMENT '状态:0正常1锁定',
+  `regTime` int(11) NOT NULL COMMENT '注册时间',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+
 /*Table structure for table `ent_auth_group` */
 
 DROP TABLE IF EXISTS `ent_auth_group`;
@@ -24,9 +45,11 @@ DROP TABLE IF EXISTS `ent_auth_group`;
 CREATE TABLE `ent_auth_group` (
   `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'ID',
   `name` varchar(20) NOT NULL COMMENT '权限组名称',
-  `rulesId` varchar(255) DEFAULT NULL COMMENT '权限规则ID，以''|''分隔',
+  `rules` text COMMENT '权限规则ID，以''|''分隔',
+  `level` tinyint(2) NOT NULL DEFAULT '5' COMMENT '默认：5级别0为超级管理员',
+  `sort` int(11) NOT NULL DEFAULT '0' COMMENT '排序',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='权限组表';
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COMMENT='权限组表';
 
 /*Table structure for table `ent_auth_rules` */
 
@@ -35,10 +58,11 @@ DROP TABLE IF EXISTS `ent_auth_rules`;
 CREATE TABLE `ent_auth_rules` (
   `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'ID',
   `pid` int(11) NOT NULL COMMENT '父ID',
-  `name` varchar(40) NOT NULL COMMENT '权限名称',
-  `rules` varchar(100) NOT NULL COMMENT '权限路径',
+  `title` varchar(40) NOT NULL COMMENT '权限名称',
+  `url` varchar(100) NOT NULL COMMENT '权限路径',
+  `sort` int(11) NOT NULL DEFAULT '0' COMMENT '排序',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='权限规则表';
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8 COMMENT='权限规则表';
 
 /*Table structure for table `ent_auth_verify` */
 
@@ -46,10 +70,10 @@ DROP TABLE IF EXISTS `ent_auth_verify`;
 
 CREATE TABLE `ent_auth_verify` (
   `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'ID',
-  `userId` int(11) NOT NULL COMMENT '用户ID',
-  `gropuId` int(11) NOT NULL COMMENT '权限组ID',
+  `uid` int(11) NOT NULL COMMENT '用户ID',
+  `groupId` int(11) NOT NULL COMMENT '权限组ID',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='权限授权表';
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COMMENT='权限授权表';
 
 /*Table structure for table `ent_cate` */
 
@@ -88,7 +112,7 @@ CREATE TABLE `ent_user` (
   `status` tinyint(4) NOT NULL DEFAULT '0' COMMENT '状态:0正常1锁定',
   `regTime` int(11) NOT NULL COMMENT '注册时间',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
 /*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
