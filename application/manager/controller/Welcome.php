@@ -49,7 +49,7 @@ class Welcome extends Controller{
 	public function loginOut(){
 		
 		Session::delete('user_id');
-	
+		Cookie::delete('user_info');
 		$this->success('退出成功！',url('login'));
 	}
 	
